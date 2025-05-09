@@ -20,7 +20,7 @@ https://nhukkeri.github.io/Nandini-s-Wordle-World/
 *(Link appears after enabling GitHub Pages in repo settings)*
 
 ## Files Included
-- `index.html` — main game logic and layout
+- `nandini_wordle_World.html` — main game logic and layout
 - (Optional) `wordlist.txt` — to be used for secret word generation
 
 ---
