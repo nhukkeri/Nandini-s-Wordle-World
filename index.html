@@ -62,8 +62,13 @@
   </style>
 </head>
 <body>
+  <div id="namePrompt" style="margin-bottom: 20px;">
+    <label for="playerName"><strong>Enter your name to begin:</strong></label><br>
+    <input type="text" id="playerName" placeholder="Your name here" style="padding: 8px; font-size: 16px; width: 200px;">
+    <button onclick="startGame()">Start Game</button>
+  </div>
   <p><em>Share this link with your friends! It’s a fun guessing game with 6 chances to win. 🍀</em></p>
-  <h2> Welcome to Nandini's Wordle World!! </h2><p><strong>Hey Champion!</strong> Can you crack the 5-letter secret word? You have 6 tries. Go for it!</p>
+  <h2 id="gameTitle"> Welcome to Nandini's Wordle World!! ❤️</h2><p id="playerGreeting"><strong>Hey Champion!</strong> Can you crack the 5-letter secret word? You have 6 tries. Go for it!</p>
   
   
   <div class="hint">
@@ -75,10 +80,10 @@
     ✨ <strong>Hint:</strong> The word belongs to one of these categories: fruit, furniture, or object you use every day.<br>
     Type a guess and hit <strong>Submit</strong>!
   <div class="badge"> – Tech & Tea Bestie mode activated.</div>
-    <button onclick="location.reload()">Play Again</button>
+    <button onclick="location.reload()" id="restartButton" disabled>Play Again</button>
   </div>
   <p style="font-size: 15px; color: #444;"><strong>This game is brought to you by Nandini Hukkeri… but YOU are the true Champion!</strong></p>
-  <div id="game">
+  <div id="game" style="display:none;">
     <input type="text" id="guessInput" maxlength="5" autofocus />
     <button onclick="submitGuess()">Submit</button>
     <div id="output"></div>
@@ -89,7 +94,19 @@
     const secretWord = secretWords[Math.floor(Math.random() * secretWords.length)];
     let attempts = 0;
 
-    function submitGuess() {
+    function startGame() {
+  const nameInput = document.getElementById("playerName").value.trim();
+  if (!nameInput) {
+    alert("Please enter your name to begin.");
+    return;
+  }
+  document.getElementById("playerGreeting").innerHTML = `<strong>Hi ${nameInput}!</strong> Can you crack the 5-letter secret word? You have 6 tries.`;
+  document.getElementById("namePrompt").style.display = "none";
+  document.getElementById("game").style.display = "block";
+  window.playerName = nameInput;
+}
+
+function submitGuess() {
       const input = document.getElementById("guessInput");
       const guess = input.value.toLowerCase();
       const output = document.getElementById("output");
@@ -122,14 +139,16 @@
       input.value = "";
 
       if (guess === secretWord) {
-        alert("🎉 You nailed the word in " + attempts + " tries. Nandini would be proud!");
+        alert("🎉 You nailed the word in " + attempts + " tries. Great job, " + window.playerName + "!");
         input.disabled = true;
+document.getElementById("restartButton").disabled = false;
       } else if (attempts === 6) {
-        alert("😞 No worries! The word was: " + secretWord.toUpperCase() + ". Try again soon!");
+        alert("😞 No worries, " + window.playerName + "! The word was: " + secretWord.toUpperCase() + ". Try again soon!");
         input.disabled = true;
       }
     }
-  </script>
+  window.onload = () => document.getElementById("guessInput").focus();
+</script>
 <footer style="margin-top: 40px; font-size: 13px; color: #555;">
     <hr>
     <p>Made by Nandini & her buddy Chattie</p>
